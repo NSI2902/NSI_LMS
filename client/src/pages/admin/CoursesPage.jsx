@@ -1,0 +1,219 @@
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { BookOpen, Plus, RefreshCw } from 'lucide-react';
+import SearchBar from '../../components/admin/SearchBar';
+import StatusBadge from '../../components/admin/StatusBadge';
+import LoadingState from '../../components/admin/LoadingState';
+import EmptyState from '../../components/admin/EmptyState';
+import ErrorState from '../../components/admin/ErrorState';
+import {
+  createCourse,
+  getCourseCategories,
+  getCourses,
+  updateCourse,
+  updateCourseStatus,
+} from '../../services/courseAdminService';
+
+const emptyCourse = {
+  course_code: '',
+  name: '',
+  description: '',
+  category_id: '',
+  thumbnail_url: '',
+  duration_value: '',
+  duration_unit: 'WEEKS',
+};
+
+export default function CoursesPage() {
+  const [courses, setCourses] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [form, setForm] = useState(emptyCourse);
+  const [editing, setEditing] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState('');
+
+  const loadData = useCallback(async () => {
+    setIsLoading(true);
+    setError('');
+    try {
+      const [courseRows, categoryRows] = await Promise.all([
+        getCourses(),
+        getCourseCategories({ status: 'ACTIVE' }),
+      ]);
+      setCourses(courseRows);
+      setCategories(categoryRows);
+    } catch (err) {
+      setError(err.message || 'Failed to load courses');
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
+
+  const categoryNameById = useMemo(() => {
+    return categories.reduce((map, category) => ({ ...map, [category.id]: category.name }), {});
+  }, [categories]);
+
+  const filteredCourses = useMemo(() => {
+    const q = searchQuery.toLowerCase().trim();
+    if (!q) return courses;
+    return courses.filter((course) =>
+      `${course.course_code || ''} ${course.name || ''} ${course.description || ''} ${course.category?.name || ''}`.toLowerCase().includes(q)
+    );
+  }, [courses, searchQuery]);
+
+  const resetForm = () => {
+    setEditing(null);
+    setForm(emptyCourse);
+  };
+
+  const buildPayload = () => ({
+    course_code: form.course_code.trim(),
+    name: form.name.trim(),
+    description: form.description.trim() || null,
+    category_id: form.category_id ? Number(form.category_id) : null,
+    thumbnail_url: form.thumbnail_url.trim() || null,
+    duration_value: form.duration_value ? Number(form.duration_value) : null,
+    duration_unit: form.duration_value ? form.duration_unit : null,
+  });
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setIsSaving(true);
+    try {
+      if (editing) {
+        await updateCourse(editing.id, buildPayload());
+      } else {
+        await createCourse(buildPayload());
+      }
+      resetForm();
+      await loadData();
+    } catch (err) {
+      alert(err.message || 'Failed to save course');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleEdit = (course) => {
+    setEditing(course);
+    setForm({
+      course_code: course.course_code || '',
+      name: course.name || '',
+      description: course.description || '',
+      category_id: course.category_id || '',
+      thumbnail_url: course.thumbnail_url || '',
+      duration_value: course.duration_value || '',
+      duration_unit: course.duration_unit || 'WEEKS',
+    });
+  };
+
+  const setStatus = async (course, status) => {
+    try {
+      await updateCourseStatus(course.id, status);
+      setCourses((current) => current.map((item) => (item.id === course.id ? { ...item, status } : item)));
+    } catch (err) {
+      alert(err.message || 'Failed to update course status');
+    }
+  };
+
+  return (
+    <div className="course-admin-page">
+      <div className="course-admin-header">
+        <div>
+          <div className="course-admin-kicker">
+            <BookOpen size={20} />
+            <span>Courses</span>
+          </div>
+          <h1 className="course-admin-title">Courses</h1>
+          <p className="course-admin-subtitle">Manage core course information, duration, category, thumbnail, and availability.</p>
+        </div>
+        <button onClick={loadData} disabled={isLoading} className="course-admin-icon-btn">
+          <RefreshCw size={17} className={isLoading ? 'animate-spin text-indigo-600' : ''} />
+          Refresh
+        </button>
+      </div>
+
+      <div className="course-admin-grid">
+        <form onSubmit={handleSubmit} className="course-admin-panel">
+          <h2 className="course-admin-panel-title">{editing ? 'Edit Course' : 'Add Course'}</h2>
+          <div className="course-admin-form-grid">
+            <label className="course-admin-label">Code
+              <input value={form.course_code} onChange={(e) => setForm((p) => ({ ...p, course_code: e.target.value }))} required maxLength={50} className="course-admin-input" />
+            </label>
+            <label className="course-admin-label">Name
+              <input value={form.name} onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))} required maxLength={200} className="course-admin-input" />
+            </label>
+            <label className="course-admin-label">Category
+              <select value={form.category_id} onChange={(e) => setForm((p) => ({ ...p, category_id: e.target.value }))} className="course-admin-select">
+                <option value="">No category</option>
+                {categories.map((category) => <option key={category.id} value={category.id}>{category.name}</option>)}
+              </select>
+            </label>
+            <label className="course-admin-label">Thumbnail URL
+              <input value={form.thumbnail_url} onChange={(e) => setForm((p) => ({ ...p, thumbnail_url: e.target.value }))} className="course-admin-input" />
+            </label>
+            <label className="course-admin-label">Duration
+              <div className="mt-1.5 grid grid-cols-[1fr_120px] gap-2">
+                <input type="number" min="1" value={form.duration_value} onChange={(e) => setForm((p) => ({ ...p, duration_value: e.target.value }))} className="course-admin-input mt-0" />
+                <select value={form.duration_unit} onChange={(e) => setForm((p) => ({ ...p, duration_unit: e.target.value }))} className="course-admin-select mt-0">
+                  <option>DAYS</option><option>WEEKS</option><option>MONTHS</option>
+                </select>
+              </div>
+            </label>
+            <label className="course-admin-label sm:col-span-2 xl:col-span-1">Description
+              <textarea value={form.description} onChange={(e) => setForm((p) => ({ ...p, description: e.target.value }))} className="course-admin-textarea" />
+            </label>
+          </div>
+          <div className="course-admin-form-actions">
+            <button disabled={isSaving} className="course-admin-primary-btn">
+              <Plus size={16} />
+              {editing ? 'Save' : 'Create'}
+            </button>
+            {editing && <button type="button" onClick={resetForm} className="course-admin-secondary-btn">Cancel</button>}
+          </div>
+        </form>
+
+        <div className="space-y-4">
+          <div className="course-admin-toolbar">
+            <SearchBar value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} onClear={() => setSearchQuery('')} placeholder="Search courses by code, name, or category..." />
+          </div>
+
+          {isLoading ? <LoadingState rows={6} /> : error ? <ErrorState title="Unable to load courses" message={error} onRetry={loadData} /> : filteredCourses.length === 0 ? (
+            <EmptyState title="No courses found" description="Create a course before adding batches or assignments." icon={<BookOpen size={32} />} />
+          ) : (
+            <div className="course-admin-table-wrap">
+              <div className="course-admin-table-scroll">
+              <table className="course-admin-table">
+                <thead>
+                  <tr><th className="px-5 py-3">Course</th><th className="px-5 py-3">Category</th><th className="px-5 py-3">Duration</th><th className="px-5 py-3">Status</th><th className="px-5 py-3 text-right">Actions</th></tr>
+                </thead>
+                <tbody>
+                  {filteredCourses.map((course) => (
+                    <tr key={course.id} className="course-admin-table-row">
+                      <td><p className="course-admin-row-title">{course.name}</p><p className="course-admin-row-meta">{course.course_code}</p></td>
+                      <td className="course-admin-muted">{course.category?.name || categoryNameById[course.category_id] || 'Unassigned'}</td>
+                      <td className="course-admin-muted">{course.duration_value ? `${course.duration_value} ${course.duration_unit?.toLowerCase()}` : 'Not set'}</td>
+                      <td><StatusBadge status={course.status} /></td>
+                      <td className="course-admin-actions">
+                        <button onClick={() => handleEdit(course)} className="course-admin-text-btn">Edit</button>
+                        {['DRAFT', 'ACTIVE', 'INACTIVE', 'ARCHIVED'].filter((s) => s !== course.status).map((status) => (
+                          <button key={status} onClick={() => setStatus(course, status)} className="course-admin-neutral-btn">{status}</button>
+                        ))}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}

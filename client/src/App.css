@@ -1,0 +1,1087 @@
+@reference "./index.css";
+
+/* ==========================================================================
+   Nityashree Infotech — Component layer
+   Uses the palette + type tokens defined in index.css (Ink/Indigo/Ochre/
+   Eucalyptus, --font-display: Fraunces, --font-ui: Plus Jakarta Sans).
+   ========================================================================== */
+
+:root {
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+*:focus-visible {
+  outline: 2px solid var(--primary-500);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Auth
+   ========================================================================== */
+
+.auth-page-wrapper {
+  @apply relative flex min-h-screen flex-col items-center justify-between overflow-hidden px-5 py-6 sm:py-10;
+  background:
+    radial-gradient(circle at 14% 8%, rgba(60, 76, 184, 0.16), transparent 26rem),
+    radial-gradient(circle at 86% 92%, rgba(201, 138, 46, 0.13), transparent 28rem),
+    linear-gradient(160deg, #f8f9fd 0%, #f2f3fa 55%, #f8f6f0 100%);
+}
+
+.auth-background-decoration {
+  @apply pointer-events-none absolute inset-0 overflow-hidden;
+  background-image: radial-gradient(rgba(16, 27, 52, 0.06) 1px, transparent 1px);
+  background-size: 26px 26px;
+  mask-image: radial-gradient(ellipse 70% 55% at 50% 0%, black 25%, transparent 78%);
+}
+
+/* Signature motif: thin concentric "seal" rings instead of blurred glow blobs */
+.bg-circle {
+  @apply pointer-events-none absolute rounded-full;
+  border-style: solid;
+  border-color: transparent;
+}
+
+.bg-circle-1 {
+  @apply -left-20 -top-20 h-72 w-72;
+  border-width: 34px;
+  border-color: rgba(60, 76, 184, 0.05);
+}
+
+.bg-circle-2 {
+  @apply -bottom-24 -right-16 h-80 w-80;
+  border-width: 42px;
+  border-color: rgba(201, 138, 46, 0.06);
+}
+
+.bg-circle-3 {
+  @apply left-[58%] top-[26%] h-56 w-56;
+  border-width: 1px;
+  border-color: rgba(16, 27, 52, 0.09);
+}
+
+.auth-main-container {
+  @apply relative z-10 my-auto flex w-full max-w-[460px] justify-center;
+}
+
+.auth-page-footer {
+  @apply relative z-10 mt-8 text-center text-xs font-medium text-[var(--text-muted)];
+}
+
+.auth-card {
+  @apply w-full rounded-[22px] border border-white/85 bg-white/95 p-6 text-center backdrop-blur sm:p-8;
+  box-shadow: var(--shadow-xl);
+}
+
+.brand-header {
+  @apply mb-6 flex flex-col items-center;
+}
+
+.brand-logo-wrapper {
+  @apply mb-4 flex h-20 w-20 items-center justify-center rounded-2xl border p-2;
+  border-color: var(--border-subtle);
+  box-shadow: var(--shadow-md);
+}
+
+.brand-logo {
+  @apply max-h-full max-w-full object-contain;
+}
+
+.brand-title {
+  @apply font-[family-name:var(--font-display)] text-[26px] font-semibold tracking-tight text-[var(--text-primary)];
+}
+
+.brand-company {
+  @apply mt-1 text-sm font-semibold text-[var(--admin-dark)];
+}
+
+.landing-content {
+  @apply flex w-full flex-col items-center;
+}
+
+.landing-statement {
+  @apply mb-7 max-w-sm text-sm leading-6 text-[var(--text-secondary)];
+}
+
+.btn-primary {
+  @apply inline-flex items-center justify-center gap-2 rounded-xl font-bold text-white transition duration-200 disabled:opacity-70;
+  background: linear-gradient(180deg, var(--primary-500), var(--admin-primary));
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.16) inset, 0 10px 24px -8px rgba(46, 58, 140, 0.45);
+  transition-timing-function: var(--ease-out);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(180deg, var(--admin-primary), var(--admin-dark));
+  transform: translateY(-1px);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.16) inset, 0 14px 30px -8px rgba(46, 58, 140, 0.5);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  background: var(--admin-dark);
+}
+
+.btn-login-cta,
+.btn-submit-login {
+  @apply w-full px-5 py-3 text-base;
+}
+
+.auth-card-footer {
+  @apply mt-6 flex w-full items-center justify-center gap-2 border-t pt-4 text-xs font-semibold text-[var(--text-muted)];
+  border-color: var(--border-subtle);
+}
+
+.footer-lock-icon {
+  @apply text-[var(--admin-primary)];
+}
+
+.form-heading-wrapper {
+  @apply mb-5 text-center;
+}
+
+.form-heading {
+  @apply font-[family-name:var(--font-display)] text-[22px] font-semibold text-[var(--text-primary)];
+}
+
+.form-subheading {
+  @apply mt-1 text-sm text-[var(--text-muted)];
+}
+
+.auth-error-banner {
+  @apply mb-5 flex w-full items-start gap-3 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-left;
+}
+
+.error-icon,
+.error-title,
+.error-message {
+  @apply text-rose-700;
+}
+
+.error-text-content {
+  @apply flex flex-col gap-0.5;
+}
+
+.error-title {
+  @apply text-xs font-bold;
+}
+
+.error-message {
+  @apply text-xs leading-5;
+}
+
+.auth-form {
+  @apply flex w-full flex-col gap-4 text-left;
+}
+
+.form-group {
+  @apply flex flex-col gap-1.5;
+}
+
+.form-label {
+  @apply text-sm font-bold text-[var(--text-primary)];
+}
+
+.input-wrapper {
+  @apply relative flex items-center rounded-xl border bg-white transition duration-150;
+  border-color: var(--border-subtle);
+}
+
+.input-wrapper:focus-within {
+  border-color: var(--admin-primary);
+  box-shadow: 0 0 0 4px var(--admin-light);
+}
+
+.input-wrapper.input-error {
+  @apply border-rose-400 bg-rose-50/40;
+}
+
+.input-icon {
+  @apply pointer-events-none absolute left-3.5 text-[var(--text-muted)];
+}
+
+.form-input {
+  @apply w-full rounded-xl border-0 bg-transparent py-3 pl-11 pr-3 text-sm font-medium text-[var(--text-primary)] outline-none;
+}
+
+.form-input::placeholder {
+  color: var(--text-muted);
+}
+
+.form-input-password {
+  @apply pr-11;
+}
+
+.password-toggle-btn {
+  @apply absolute right-2 rounded-lg p-2 text-[var(--text-muted)] transition hover:bg-[var(--bg-card-subtle)] hover:text-[var(--text-primary)];
+}
+
+.field-error-text {
+  @apply text-xs font-semibold text-rose-700;
+}
+
+.btn-back-overview {
+  @apply mx-auto inline-flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-bold text-[var(--text-muted)] transition hover:bg-[var(--bg-card-subtle)] hover:text-[var(--admin-dark)];
+}
+
+.spinner {
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Navbar and portal
+   ========================================================================== */
+
+.portal-page-layout {
+  @apply flex min-h-screen flex-col;
+  background: var(--bg-page);
+}
+
+.navbar {
+  @apply sticky top-0 z-50 border-b bg-white/92 backdrop-blur;
+  border-color: var(--border-subtle);
+  box-shadow: 0 1px 0 rgba(16, 27, 52, 0.03);
+}
+
+.navbar-container {
+  @apply mx-auto flex max-w-7xl flex-col gap-3 px-4 py-3 sm:px-6 lg:flex-row lg:items-center lg:justify-between;
+}
+
+.navbar-brand {
+  @apply flex items-center gap-3;
+}
+
+.navbar-logo {
+  @apply h-10 w-auto object-contain;
+}
+
+.navbar-brand-text {
+  @apply flex flex-col;
+}
+
+.navbar-title {
+  @apply font-[family-name:var(--font-ui)] text-lg font-extrabold leading-tight text-[var(--text-primary)];
+}
+
+.navbar-subtitle {
+  @apply text-xs font-bold text-[var(--admin-dark)];
+}
+
+.navbar-portals {
+  @apply flex max-w-full items-center gap-1 overflow-x-auto rounded-xl border p-1;
+  border-color: var(--border-subtle);
+  background: var(--bg-page);
+}
+
+.portal-nav-link {
+  @apply inline-flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm font-bold text-[var(--text-secondary)] transition duration-150 hover:bg-white hover:text-[var(--text-primary)];
+}
+
+.portal-nav-link.active {
+  @apply bg-white text-[var(--admin-dark)];
+  box-shadow: var(--shadow-md);
+}
+
+.navbar-user-section {
+  @apply flex items-center justify-between gap-3;
+}
+
+.user-profile-summary {
+  @apply flex min-w-0 items-center gap-3;
+}
+
+.user-avatar {
+  @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-[var(--admin-dark)];
+  background: var(--admin-light);
+  box-shadow: 0 0 0 1px rgba(46, 58, 140, 0.08) inset;
+}
+
+.user-details {
+  @apply hidden min-w-0 flex-col sm:flex;
+}
+
+.user-name {
+  @apply truncate text-sm font-bold text-[var(--text-primary)];
+}
+
+.user-meta {
+  @apply mt-0.5 flex items-center gap-2;
+}
+
+.user-username {
+  @apply text-xs font-medium text-[var(--text-muted)];
+}
+
+.btn-logout {
+  @apply inline-flex items-center gap-2 rounded-xl border bg-white px-3 py-2 text-sm font-bold text-[var(--text-secondary)] transition duration-150 hover:border-rose-200 hover:bg-rose-50 hover:text-rose-700;
+  border-color: var(--border-subtle);
+  box-shadow: var(--shadow-md);
+}
+
+.portal-selection-main {
+  @apply mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6 sm:py-12;
+}
+
+.portal-selection-container {
+  @apply flex flex-col gap-8;
+}
+
+.portal-header-section {
+  @apply flex flex-col items-center gap-6 text-center;
+}
+
+.portal-header-brand {
+  @apply flex flex-col items-center gap-4 sm:flex-row sm:text-left;
+}
+
+.portal-brand-logo {
+  @apply h-14 w-auto object-contain;
+}
+
+.portal-brand-name {
+  @apply font-[family-name:var(--font-display)] text-[32px] font-semibold tracking-tight text-[var(--text-primary)];
+}
+
+.portal-company-tagline,
+.section-subtitle,
+.welcome-subtext {
+  @apply text-sm leading-6 text-[var(--text-muted)];
+}
+
+.portal-user-welcome-card {
+  @apply flex w-full max-w-3xl flex-col items-center gap-4 rounded-2xl border bg-white p-5 text-center sm:flex-row sm:text-left;
+  border-color: var(--border-subtle);
+  box-shadow: var(--shadow-md);
+}
+
+.welcome-avatar-wrapper {
+  @apply flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-[var(--instructor-dark)];
+  background: var(--instructor-light);
+}
+
+.welcome-name-row {
+  @apply flex flex-wrap items-center justify-center gap-2 sm:justify-start;
+}
+
+.welcome-greeting {
+  @apply text-sm text-[var(--text-muted)];
+}
+
+.welcome-fullname {
+  @apply text-base font-extrabold text-[var(--text-primary)];
+}
+
+.section-title {
+  @apply font-[family-name:var(--font-display)] text-[26px] font-semibold tracking-tight text-[var(--text-primary)];
+}
+
+.portal-cards-grid {
+  @apply grid gap-5;
+}
+
+.grid-count-1 {
+  @apply mx-auto max-w-md grid-cols-1;
+}
+
+.grid-count-2 {
+  @apply mx-auto max-w-4xl grid-cols-1 md:grid-cols-2;
+}
+
+.grid-count-3 {
+  @apply grid-cols-1 md:grid-cols-2 lg:grid-cols-3;
+}
+
+.portal-card {
+  @apply relative flex min-h-60 flex-col justify-between overflow-hidden rounded-2xl border bg-white p-6 text-left transition duration-200 focus:outline-none;
+  border-color: var(--border-subtle);
+  box-shadow: var(--shadow-md);
+  transition-timing-function: var(--ease-out);
+}
+
+.portal-card::before {
+  content: "";
+  @apply absolute inset-x-0 top-0 h-[3px];
+  background: var(--border-subtle);
+}
+
+.portal-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+.portal-card:focus-visible {
+  box-shadow: var(--shadow-lg), 0 0 0 4px var(--admin-light);
+}
+
+.portal-card-top,
+.portal-card-footer {
+  @apply flex items-center justify-between gap-4;
+}
+
+.portal-card-footer {
+  @apply border-t pt-4;
+  border-color: var(--border-subtle);
+}
+
+.portal-icon-container {
+  @apply flex h-13 w-13 items-center justify-center rounded-xl;
+}
+
+.portal-type-badge {
+  @apply rounded-full px-2.5 py-1 text-[11px] font-extrabold uppercase tracking-wider;
+}
+
+.portal-card-body {
+  @apply my-5;
+}
+
+.portal-title {
+  @apply font-[family-name:var(--font-display)] text-xl font-semibold text-[var(--text-primary)];
+}
+
+.portal-description {
+  @apply mt-2 text-sm leading-6 text-[var(--text-secondary)];
+}
+
+.portal-action-label {
+  @apply text-sm font-bold text-[var(--text-primary)];
+}
+
+.portal-action-arrow {
+  @apply flex h-9 w-9 items-center justify-center rounded-full transition duration-200;
+}
+
+.portal-card:hover .portal-action-arrow {
+  transform: translateX(2px);
+}
+
+.portal-accent-admin:hover {
+  border-color: var(--primary-500);
+}
+.portal-accent-admin::before {
+  background: linear-gradient(90deg, var(--admin-primary), var(--primary-500));
+}
+.portal-accent-admin .portal-icon-container,
+.portal-accent-admin .portal-type-badge,
+.portal-accent-admin .portal-action-arrow {
+  @apply border;
+  border-color: var(--admin-light);
+  background: var(--admin-light);
+  color: var(--admin-dark);
+}
+
+.portal-accent-student:hover {
+  border-color: var(--student-primary);
+}
+.portal-accent-student::before {
+  background: linear-gradient(90deg, var(--student-dark), var(--student-primary));
+}
+.portal-accent-student .portal-icon-container,
+.portal-accent-student .portal-type-badge,
+.portal-accent-student .portal-action-arrow {
+  @apply border;
+  border-color: var(--student-light);
+  background: var(--student-light);
+  color: var(--student-dark);
+}
+
+.portal-accent-instructor:hover {
+  border-color: var(--instructor-primary);
+}
+.portal-accent-instructor::before {
+  background: linear-gradient(90deg, var(--instructor-dark), var(--instructor-primary));
+}
+.portal-accent-instructor .portal-icon-container,
+.portal-accent-instructor .portal-type-badge,
+.portal-accent-instructor .portal-action-arrow {
+  @apply border;
+  border-color: var(--instructor-light);
+  background: var(--instructor-light);
+  color: var(--instructor-dark);
+}
+
+.portal-no-access-alert {
+  @apply rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm font-semibold text-rose-700;
+}
+
+.app-footer {
+  @apply mt-auto border-t bg-white/80 px-4 py-4 text-center text-xs font-medium text-[var(--text-muted)];
+  border-color: var(--border-subtle);
+}
+
+/* Badges — "seal" motif: small ring + label, used for role identity
+   ========================================================================== */
+
+.role-badge {
+  @apply inline-flex items-center gap-1.5 rounded-full border font-extrabold uppercase tracking-wider;
+}
+
+.role-badge::before {
+  content: "";
+  @apply inline-block h-1.5 w-1.5 rounded-full;
+  background: currentColor;
+}
+
+.role-badge-sm {
+  @apply px-2 py-0.5 text-[10px];
+}
+
+.role-badge-md {
+  @apply px-2.5 py-1 text-xs;
+}
+
+.badge-admin {
+  border-color: var(--admin-light);
+  background: var(--admin-light);
+  color: var(--admin-dark);
+}
+
+.badge-instructor {
+  border-color: var(--instructor-light);
+  background: var(--instructor-light);
+  color: var(--instructor-dark);
+}
+
+.badge-student {
+  border-color: var(--student-light);
+  background: var(--student-light);
+  color: var(--student-dark);
+}
+
+.badge-default {
+  @apply border-slate-200 bg-slate-100 text-slate-700;
+}
+
+/* Admin shell
+   ========================================================================== */
+
+.admin-shell {
+  --navbar-height: 68px;
+  --admin-sidebar-width: 260px;
+  @apply min-h-screen w-full;
+  background: var(--bg-page);
+}
+
+.admin-body {
+  @apply relative flex flex-1;
+  min-height: calc(100vh - var(--navbar-height));
+}
+
+.admin-sidebar {
+  top: var(--navbar-height);
+  width: var(--admin-sidebar-width);
+  max-width: 86vw;
+  height: calc(100vh - var(--navbar-height));
+  @apply bg-white/95 backdrop-blur;
+  box-shadow: var(--shadow-xl);
+}
+
+.admin-sidebar-backdrop {
+  top: var(--navbar-height);
+}
+
+.admin-main {
+  @apply flex min-w-0 flex-1 flex-col;
+  min-height: calc(100vh - var(--navbar-height));
+}
+
+.admin-mobile-bar {
+  @apply hidden px-4 pt-4;
+}
+
+.admin-mobile-menu-btn {
+  @apply inline-flex items-center gap-2 rounded-xl border bg-white px-4 py-2 text-sm font-bold text-[var(--text-primary)];
+  border-color: var(--border-subtle);
+  box-shadow: var(--shadow-md);
+}
+
+.admin-content {
+  @apply flex-1;
+}
+
+.admin-content-inner {
+  @apply mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:py-8;
+}
+
+.admin-footer {
+  @apply border-t bg-white/80 px-4 py-3 text-center text-xs font-medium text-[var(--text-muted)];
+  border-color: var(--border-subtle);
+}
+
+.admin-page {
+  @apply flex flex-col gap-7;
+}
+
+.admin-dashboard-hero {
+  @apply relative overflow-hidden rounded-2xl border p-6 text-[var(--text-primary)] sm:p-8;
+  border-color: var(--border-subtle);
+  background: linear-gradient(155deg, #ffffff 0%, var(--bg-page) 100%);
+  box-shadow: var(--shadow-md);
+}
+
+.admin-dashboard-hero-art {
+  @apply text-[var(--admin-primary)] opacity-10;
+}
+
+.admin-eyebrow {
+  @apply inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-extrabold uppercase tracking-wider;
+  border-color: var(--admin-light);
+  background: var(--admin-light);
+  color: var(--admin-dark);
+}
+
+.admin-dashboard-title {
+  @apply font-[family-name:var(--font-display)] text-[30px] font-semibold tracking-tight text-[var(--text-primary)];
+}
+
+.admin-dashboard-subtitle {
+  @apply mt-2 max-w-2xl text-sm leading-6 text-[var(--text-secondary)];
+}
+
+.admin-dashboard-subtitle strong {
+  @apply text-[var(--text-primary)];
+}
+
+.admin-section-heading {
+  @apply mb-4 flex items-center justify-between gap-4;
+}
+
+.admin-section-heading h2,
+.admin-panel h2,
+.admin-recent-users h2 {
+  @apply font-[family-name:var(--font-display)] text-lg font-semibold text-[var(--text-primary)];
+}
+
+.admin-stats-grid,
+.admin-actions-grid {
+  @apply grid gap-4;
+}
+
+.admin-stats-grid {
+  @apply grid-cols-1 sm:grid-cols-2 lg:grid-cols-3;
+}
+
+.admin-actions-grid {
+  @apply grid-cols-1 sm:grid-cols-2 lg:grid-cols-4;
+}
+
+.admin-stat-card,
+.admin-panel,
+.admin-recent-users,
+.admin-table-card {
+  @apply rounded-2xl border bg-white transition duration-200;
+  border-color: var(--border-subtle);
+  box-shadow: var(--shadow-md);
+  transition-timing-function: var(--ease-out);
+}
+
+.admin-stat-card {
+  @apply min-h-34 p-5;
+}
+
+.admin-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.admin-stat-icon {
+  @apply h-12 w-12;
+}
+
+.admin-quick-actions {
+  @apply p-5;
+}
+
+.admin-action-card {
+  @apply min-h-20 rounded-xl border p-4 transition duration-200 hover:-translate-y-0.5;
+  border-color: var(--border-subtle);
+  box-shadow: var(--shadow-md);
+  transition-timing-function: var(--ease-out);
+}
+
+.admin-action-card:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.admin-action-card p {
+  @apply leading-5;
+}
+
+.admin-table-card {
+  @apply overflow-hidden;
+}
+
+.admin-table-card table {
+  @apply min-w-[820px];
+}
+
+.admin-table-card th {
+  @apply px-5 py-3.5;
+}
+
+.admin-table-card td {
+  @apply px-5 py-4 align-middle;
+}
+
+.student-text { color: var(--student-dark); }
+.instructor-text { color: var(--instructor-dark); }
+.admin-text { color: var(--admin-dark); }
+
+.student-icon-bg { @apply border; border-color: var(--student-light); background: var(--student-light); color: var(--student-dark); }
+.instructor-icon-bg { @apply border; border-color: var(--instructor-light); background: var(--instructor-light); color: var(--instructor-dark); }
+.admin-icon-bg { @apply border; border-color: var(--admin-light); background: var(--admin-light); color: var(--admin-dark); }
+
+/* Course admin shared styling
+   ========================================================================== */
+
+.course-admin-page {
+  @apply space-y-6;
+}
+
+.course-admin-header {
+  @apply flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between;
+}
+
+.course-admin-kicker {
+  @apply mb-1 flex items-center gap-2 text-[var(--admin-primary)];
+}
+
+.course-admin-kicker span {
+  @apply text-xs font-bold uppercase tracking-wider;
+}
+
+.course-admin-title {
+  @apply font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight text-[var(--text-primary)] sm:text-[28px];
+}
+
+.course-admin-subtitle {
+  @apply mt-1 max-w-2xl text-sm leading-6 text-[var(--text-muted)];
+}
+
+.course-admin-toolbar,
+.course-admin-panel,
+.course-admin-assignment-grid,
+.course-admin-assignment-form {
+  @apply rounded-2xl border bg-white;
+  border-color: var(--border-subtle);
+  box-shadow: var(--shadow-md);
+}
+
+.course-admin-toolbar {
+  @apply p-4;
+}
+
+.course-admin-grid {
+  @apply grid gap-5 xl:grid-cols-[420px_minmax(0,1fr)];
+}
+
+.course-admin-narrow-grid {
+  @apply grid gap-5 lg:grid-cols-[360px_minmax(0,1fr)];
+}
+
+.course-admin-panel {
+  @apply p-5;
+}
+
+.course-admin-panel-title {
+  @apply font-[family-name:var(--font-display)] text-base font-semibold text-[var(--text-primary)];
+}
+
+.course-admin-form {
+  @apply mt-4 space-y-4;
+}
+
+.course-admin-form-grid {
+  @apply mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-1;
+}
+
+.course-admin-label {
+  @apply block text-xs font-extrabold uppercase tracking-wider text-[var(--text-muted)];
+}
+
+.course-admin-input,
+.course-admin-select,
+.course-admin-textarea {
+  @apply mt-1.5 w-full rounded-xl border bg-white px-3 py-2.5 text-sm font-semibold text-[var(--text-primary)] outline-none transition duration-150;
+  border-color: var(--border-subtle);
+}
+
+.course-admin-input:focus,
+.course-admin-select:focus,
+.course-admin-textarea:focus {
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 4px var(--admin-light);
+}
+
+.course-admin-textarea {
+  @apply min-h-24 resize-y font-medium text-[var(--text-secondary)];
+}
+
+.course-admin-form-actions {
+  @apply mt-5 flex flex-wrap gap-2;
+}
+
+.course-admin-primary-btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-bold text-white transition duration-200 disabled:cursor-not-allowed disabled:opacity-60;
+  background: linear-gradient(180deg, var(--primary-500), var(--admin-primary));
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.16) inset, 0 10px 22px -8px rgba(46, 58, 140, 0.42);
+}
+
+.course-admin-primary-btn:hover:not(:disabled) {
+  background: linear-gradient(180deg, var(--admin-primary), var(--admin-dark));
+  transform: translateY(-1px);
+}
+
+.course-admin-primary-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.course-admin-secondary-btn,
+.course-admin-icon-btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-xl border bg-white px-4 py-2.5 text-sm font-bold text-[var(--text-primary)] transition duration-150 hover:bg-[var(--bg-page)] disabled:cursor-not-allowed disabled:opacity-50;
+  border-color: var(--border-subtle);
+  box-shadow: var(--shadow-md);
+}
+
+.course-admin-table-wrap {
+  @apply overflow-hidden rounded-2xl border bg-white;
+  border-color: var(--border-subtle);
+  box-shadow: var(--shadow-md);
+}
+
+.course-admin-table-scroll {
+  @apply overflow-x-auto;
+}
+
+.course-admin-table {
+  @apply w-full min-w-[780px] text-left text-sm;
+}
+
+.course-admin-table thead {
+  @apply border-b text-xs font-extrabold uppercase tracking-wider text-[var(--text-muted)];
+  border-color: var(--border-subtle);
+  background: var(--bg-page);
+}
+
+.course-admin-table th,
+.course-admin-table td {
+  @apply px-5 py-4 align-middle;
+}
+
+.course-admin-table tbody {
+  @apply divide-y;
+  border-color: var(--border-subtle);
+}
+
+.course-admin-table-row {
+  @apply transition duration-150;
+}
+
+.course-admin-table-row:hover {
+  background: var(--bg-page);
+}
+
+.course-admin-row-title {
+  @apply font-bold text-[var(--text-primary)];
+}
+
+.course-admin-row-meta {
+  @apply mt-0.5 max-w-md truncate text-xs text-[var(--text-muted)];
+}
+
+.course-admin-muted {
+  @apply text-xs font-medium text-[var(--text-secondary)];
+}
+
+.course-admin-actions {
+  @apply text-right;
+}
+
+.course-admin-text-btn {
+  @apply rounded-lg px-3 py-1.5 text-xs font-bold text-[var(--admin-dark)] transition hover:bg-[var(--admin-light)];
+}
+
+.course-admin-neutral-btn {
+  @apply rounded-lg px-3 py-1.5 text-xs font-bold text-[var(--text-secondary)] transition hover:bg-[var(--bg-card-subtle)];
+}
+
+.course-admin-danger-btn {
+  @apply rounded-lg px-3 py-1.5 text-xs font-bold text-rose-700 transition hover:bg-rose-50;
+}
+
+.course-admin-inline-select {
+  @apply rounded-lg border bg-white px-2 py-1.5 text-xs font-bold text-[var(--text-secondary)] outline-none transition;
+  border-color: var(--border-subtle);
+}
+
+.course-admin-inline-select:focus {
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 3px var(--admin-light);
+}
+
+.course-admin-assignment-grid {
+  @apply grid gap-4 p-4 md:grid-cols-2;
+}
+
+.course-admin-assignment-form {
+  @apply flex flex-col gap-3 p-4 sm:flex-row sm:items-end;
+}
+
+.course-admin-assignment-field {
+  @apply flex-1;
+}
+
+/* Placeholder and simple dashboards
+   ========================================================================== */
+
+.dashboard-main-container {
+  @apply mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6;
+}
+
+.dashboard-content {
+  @apply flex flex-col gap-6;
+}
+
+.dashboard-banner,
+.placeholder-info-card,
+.unauthorized-card {
+  @apply rounded-2xl border bg-white p-6;
+  border-color: var(--border-subtle);
+  box-shadow: var(--shadow-md);
+}
+
+.dashboard-banner-header,
+.dashboard-icon-title {
+  @apply flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between;
+}
+
+.dashboard-icon-title {
+  @apply justify-start;
+}
+
+.dashboard-portal-icon,
+.placeholder-card-icon,
+.unauthorized-icon-wrapper {
+  @apply flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl;
+}
+
+.dashboard-portal-tag {
+  @apply text-xs font-extrabold uppercase tracking-wider text-[var(--admin-dark)];
+}
+
+.dashboard-portal-name,
+.unauthorized-title {
+  @apply font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight text-[var(--text-primary)];
+}
+
+.dashboard-welcome-box {
+  @apply rounded-xl border px-4 py-3;
+  border-color: var(--border-subtle);
+  background: var(--bg-page);
+}
+
+.welcome-text {
+  @apply text-sm font-semibold text-[var(--text-primary)];
+}
+
+.dashboard-subtext,
+.unauthorized-description,
+.placeholder-info-card p {
+  @apply text-sm leading-6 text-[var(--text-secondary)];
+}
+
+.status-active {
+  @apply font-bold text-emerald-700;
+}
+
+.placeholder-card-grid {
+  @apply grid gap-5 md:grid-cols-2 lg:grid-cols-3;
+}
+
+.placeholder-info-card {
+  @apply min-h-52 transition duration-200;
+}
+
+.placeholder-info-card:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.placeholder-info-card h3 {
+  @apply font-[family-name:var(--font-display)] text-lg font-semibold text-[var(--text-primary)];
+}
+
+.placeholder-status-pill {
+  @apply inline-flex w-fit items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-extrabold uppercase tracking-wider text-[var(--text-secondary)];
+  border-color: var(--border-subtle);
+  background: var(--bg-page);
+}
+
+.dashboard-actions-footer {
+  @apply mt-2 flex flex-wrap items-center gap-3;
+}
+
+.btn-secondary-link {
+  @apply inline-flex items-center gap-2 rounded-xl border bg-white px-4 py-2.5 text-sm font-bold text-[var(--text-primary)] transition duration-150 hover:bg-[var(--bg-page)] hover:text-[var(--admin-dark)];
+  border-color: var(--border-subtle);
+  box-shadow: var(--shadow-md);
+}
+
+.unauthorized-card {
+  @apply mx-auto my-12 flex max-w-xl flex-col items-center text-center;
+}
+
+.unauthorized-icon-wrapper {
+  @apply text-rose-700 ring-1 ring-rose-100;
+  background: #fdf1f3;
+}
+
+.unauthorized-role-info {
+  @apply mt-2 flex items-center gap-2 rounded-xl border px-4 py-2;
+  border-color: var(--border-subtle);
+  background: var(--bg-page);
+}
+
+.unauthorized-info-label {
+  @apply text-xs font-bold text-[var(--text-muted)];
+}
+
+.unauthorized-actions {
+  @apply mt-4 w-full;
+}
+
+@media (min-width: 1024px) {
+  .admin-main {
+    margin-left: var(--admin-sidebar-width);
+    width: calc(100% - var(--admin-sidebar-width));
+  }
+}
+
+@media (max-width: 1023px) {
+  .admin-mobile-bar {
+    @apply block;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-shell {
+    --navbar-height: 126px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logout-text {
+    @apply hidden;
+  }
+}

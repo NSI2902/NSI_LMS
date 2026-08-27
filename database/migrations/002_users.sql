@@ -1,0 +1,37 @@
+CREATE TABLE users (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+
+    first_name VARCHAR(100) NOT NULL,
+
+    last_name VARCHAR(100) NOT NULL,
+
+    email VARCHAR(150) NOT NULL UNIQUE,
+
+    username VARCHAR(100) NOT NULL UNIQUE,
+
+    password VARCHAR(255) NOT NULL,
+
+    role_id INT UNSIGNED NOT NULL,
+
+    device_code VARCHAR(255) NULL,
+
+    profile_photo VARCHAR(500) NULL,
+
+    status ENUM('ACTIVE', 'INACTIVE', 'SUSPENDED')
+        NOT NULL DEFAULT 'ACTIVE',
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    created_by INT UNSIGNED NULL,
+
+    updated_by INT UNSIGNED NULL,
+
+    CONSTRAINT fk_users_role
+        FOREIGN KEY (role_id)
+        REFERENCES users_roles(id)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE
+);

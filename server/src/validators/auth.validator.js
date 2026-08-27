@@ -1,0 +1,79 @@
+const validateLogin = (req, res, next) => {
+  const { username, password } = req.body;
+
+  if (!username || !username.trim()) {
+    return res.status(400).json({
+      success: false,
+      message: "Username is required",
+    });
+  }
+
+  if (!password) {
+    return res.status(400).json({
+      success: false,
+      message: "Password is required",
+    });
+  }
+
+  next();
+};
+
+const validateCreateUser = (req, res, next) => {
+  const {
+    first_name,
+    last_name,
+    email,
+    username,
+    password,
+    role_id,
+  } = req.body;
+
+  if (!first_name?.trim()) {
+    return res.status(400).json({
+      success: false,
+      message: "First name is required",
+    });
+  }
+
+  if (!last_name?.trim()) {
+    return res.status(400).json({
+      success: false,
+      message: "Last name is required",
+    });
+  }
+
+  if (!email?.trim()) {
+    return res.status(400).json({
+      success: false,
+      message: "Email is required",
+    });
+  }
+
+  if (!username?.trim()) {
+    return res.status(400).json({
+      success: false,
+      message: "Username is required",
+    });
+  }
+
+  if (!password || password.length < 8) {
+    return res.status(400).json({
+      success: false,
+      message: "Password must be at least 8 characters",
+    });
+  }
+
+  if (!role_id) {
+    return res.status(400).json({
+      success: false,
+      message: "Role is required",
+    });
+  }
+
+  next();
+};
+
+module.exports = {
+  validateLogin,
+  validateCreateUser,
+};
