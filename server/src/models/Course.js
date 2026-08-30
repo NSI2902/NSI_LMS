@@ -1,21 +1,22 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
 
-const LectureNote = sequelize.define(
-  "LectureNote",
+const Course = sequelize.define(
+  "Course",
   {
     id: {
       type: DataTypes.INTEGER.UNSIGNED,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
     },
 
-    lecture_id: {
-      type: DataTypes.INTEGER.UNSIGNED,
+    course_code: {
+      type: DataTypes.STRING(50),
       allowNull: false,
+      unique: true,
     },
 
-    title: {
+    name: {
       type: DataTypes.STRING(200),
       allowNull: false,
     },
@@ -25,53 +26,39 @@ const LectureNote = sequelize.define(
       allowNull: true,
     },
 
-    file_name: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-    },
-
-    file_url: {
-      type: DataTypes.STRING(1000),
-      allowNull: false,
-    },
-
-    file_type: {
-      type: DataTypes.STRING(100),
-      allowNull: false,
-      defaultValue: "application/pdf",
-    },
-
-    file_size: {
-      type: DataTypes.BIGINT.UNSIGNED,
+    category_id: {
+      type: DataTypes.INTEGER.UNSIGNED,
       allowNull: true,
     },
 
-    storage_provider: {
-      type: DataTypes.ENUM("GOOGLE_DRIVE", "S3"),
-      allowNull: false,
-      defaultValue: "GOOGLE_DRIVE",
+    thumbnail_url: {
+      type: DataTypes.STRING(500),
+      allowNull: true,
+    },
+
+    duration_value: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+
+    duration_unit: {
+      type: DataTypes.ENUM(
+        "DAYS",
+        "WEEKS",
+        "MONTHS"
+      ),
+      allowNull: true,
     },
 
     status: {
-      type: DataTypes.ENUM("ACTIVE", "INACTIVE"),
+      type: DataTypes.ENUM(
+        "DRAFT",
+        "ACTIVE",
+        "INACTIVE",
+        "ARCHIVED"
+      ),
       allowNull: false,
-      defaultValue: "ACTIVE",
-    },
-
-    display_order: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 0,
-    },
-
-    created_at: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-    },
-
-    updated_at: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
+      defaultValue: "DRAFT",
     },
 
     created_by: {
@@ -85,11 +72,11 @@ const LectureNote = sequelize.define(
     },
   },
   {
-    tableName: "lecture_notes",
+    tableName: "courses",
     timestamps: true,
     createdAt: "created_at",
     updatedAt: "updated_at",
   }
 );
 
-module.exports = LectureNote;
+module.exports = Course;

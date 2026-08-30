@@ -10,6 +10,7 @@ const courseBatchRoutes = require("./routes/courseBatch.routes");
 const courseInstructorRoutes = require("./routes/courseInstructor.routes");
 const courseStudentRoutes = require("./routes/courseStudent.routes");
 const courseModuleRoutes = require("./routes/courseModule.routes");
+const lectureRoutes = require("./routes/lecture.routes");
 const app = express();
 
 app.use(cors());
@@ -41,4 +42,5 @@ app.use("/api/admin", courseBatchRoutes);
 app.use("/api/admin", courseInstructorRoutes);
 app.use("/api/admin", courseStudentRoutes);
 app.use("/api", courseModuleRoutes);
+app.use("/api", lectureRoutes);
 module.exports = app;
