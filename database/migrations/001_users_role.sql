@@ -8,3 +8,7 @@ updated_by INT UNSIGNED DEFAULT 1,
 PRIMARY KEY (id),
 CONSTRAINT uk_user_roles_name UNIQUE (name)
 );
+
+-- Insert table data
+INSERT INTO user_roles (name)
+VALUES ('Admin'), ('Instructor'),('Student');
